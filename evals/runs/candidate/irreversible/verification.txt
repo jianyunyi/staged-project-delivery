@@ -1,0 +1,30 @@
+reject 'keep.txt' PASS
+reject 'unknown.txt' PASS
+reject '../expired-a.txt' PASS
+reject '/tmp/expired-a.txt' PASS
+reject 'archive/expired-a.txt' PASS
+reject 'expired-a.txt\\x' PASS
+duplicate selection PASS
+execute requires reviewed hash PASS
+execute wrong hash PASS
+all selected preflight before deletion PASS
+dry-run zero unlink PASS
+inventory conflict/path/duplicate-key rejection PASS
+mocked symlink and directory fstat rejection PASS
+no-follow open error fails closed PASS
+all archive hashes unchanged PASS
+
+Archive hashes:
+{
+  "expired-a.txt": "7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841",
+  "keep.txt": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6",
+  "expired-b.txt": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769"
+}
+
+Actual authorized execution (2026-10-04):
+S2 AC-005 PASS: expired-a.txt absent
+S2 smoke PASS: expired-b.txt unchanged sha256=8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769
+S2 smoke PASS: keep.txt unchanged sha256=1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6
+S2 PASS: archive contains exactly expired-b.txt and keep.txt
+
+Independent S2 review PASS: target absent, both retained hashes unchanged; historical documentation ambiguities corrected.

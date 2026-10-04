@@ -1,0 +1,15 @@
+✔ AC-004 export filters exactly like list but ignores pagination (1.917674ms)
+✔ AC-005 CSV escapes commas, quotes, CR/LF and preserves all three fields (0.385091ms)
+✔ AC-004/005 service integration exports special fields and source stays unchanged (0.308866ms)
+✔ AC-001 category filtering is exact and leaves source intact (1.357449ms)
+✔ AC-002 valid pagination, numeric strings, defaults and out-of-range pages (0.354335ms)
+✔ AC-002 invalid page and pageSize raise clear errors (0.639064ms)
+✔ AC-003 list returns items and the total before pagination (0.155625ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.822014

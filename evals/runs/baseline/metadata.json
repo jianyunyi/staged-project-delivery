@@ -1,0 +1,17 @@
+{
+  "skill_sha256": "2228c596bc588ad74d5de813e0a32922e57bcb27a1c43b8e0dab411b637e5396",
+  "source_commit": "3180ab7401aee35a6d52b3f6c87ec8bcb0ed7a88",
+  "execution": "fresh agents; live local fixture tasks; inherited runtime restrictions",
+  "package_hashes": {
+    "SKILL.md": "2228c596bc588ad74d5de813e0a32922e57bcb27a1c43b8e0dab411b637e5396",
+    "agents/openai.yaml": "886bc24d82ece6ecd2fe46093a184ace8663028aca893e81d108ce5dfbf06e35",
+    "assets/icon.svg": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26",
+    "references/document-templates.md": "c770ed2a9e346dae9dd0282e503a5427aa2cf843b6f7bf56d1465ade35ffe2f1",
+    "references/example.md": "c6d8e69a5e47ce068f3ff0002f6023051b93cd5797ed28bc2431611fb2a1562f"
+  },
+  "agent_tasks": [
+    "baseline_lite",
+    "baseline_standard",
+    "baseline_irreversible"
+  ]
+}

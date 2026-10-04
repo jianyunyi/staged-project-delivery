@@ -1,0 +1,13 @@
+test_execute_requires_exact_confirmation (__main__.SafetyTests.test_execute_requires_exact_confirmation) ... ok
+test_invalid_inventory (__main__.SafetyTests.test_invalid_inventory) ... ok
+test_mixed_selection_is_rejected_before_unlink (__main__.SafetyTests.test_mixed_selection_is_rejected_before_unlink) ... ok
+test_mocked_execute_only_selected (__main__.SafetyTests.test_mocked_execute_only_selected) ... ok
+test_retained_unknown_outside_and_empty (__main__.SafetyTests.test_retained_unknown_outside_and_empty) ... ok
+test_symlink_directory_hardlink_and_missing_refused (__main__.SafetyTests.test_symlink_directory_hardlink_and_missing_refused) ... ok
+test_valid_dry_run_never_unlinks (__main__.SafetyTests.test_valid_dry_run_never_unlinks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK
+ARCHIVE_UNCHANGED {"expired-a.txt": "7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841", "expired-b.txt": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769", "keep.txt": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6"}

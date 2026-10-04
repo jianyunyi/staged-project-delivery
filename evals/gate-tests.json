@@ -1,0 +1,6 @@
+{
+  "stale_skill_hash_rejected": true,
+  "critical_failure_rejected": true,
+  "existing_run_label_rejected": true,
+  "workflow_yaml_parsed": true
+}

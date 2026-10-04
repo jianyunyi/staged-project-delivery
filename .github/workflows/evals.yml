@@ -1,0 +1,23 @@
+name: Skill evaluation evidence
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  evidence-and-functional-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rerun candidate artifact functional checks
+        run: python3 evals/scripts/run.py check candidate
+      - name: Reject missing, stale or failing behavioral evidence
+        run: python3 evals/scripts/verify_evidence.py
+      - name: Compare baseline and candidate
+        run: python3 evals/scripts/run.py compare baseline candidate

@@ -1,0 +1,17 @@
+{
+  "skill_sha256": "8c3d9c395f22d9a522233f6f18c0a029271906b9d352b7254cfcca70e5d5034a",
+  "version": "0.2.0",
+  "execution": "fresh agents; same prompts, clean fixtures and runtime restrictions as baseline",
+  "package_hashes": {
+    "SKILL.md": "8c3d9c395f22d9a522233f6f18c0a029271906b9d352b7254cfcca70e5d5034a",
+    "agents/openai.yaml": "886bc24d82ece6ecd2fe46093a184ace8663028aca893e81d108ce5dfbf06e35",
+    "assets/icon.svg": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26",
+    "references/document-templates.md": "c55624f2d04d8fa832cc6c91609172e90fe283d3661f936ff7bc9f0bf6cd5b49",
+    "references/example.md": "99971918f518080ddfa3e77690650cd6e38a60114a1adb8855d1dd874d324c7b"
+  },
+  "agent_tasks": [
+    "candidate_lite",
+    "candidate_standard",
+    "candidate_irreversible"
+  ]
+}

@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test
+
+✔ AC-004 export filters exactly like list but ignores pagination (1.829951ms)
+✔ AC-005 CSV escapes commas, quotes, CR/LF and preserves all three fields (0.360854ms)
+✔ AC-004/005 service integration exports special fields and source stays unchanged (0.32504ms)
+✔ AC-001 category filtering is exact and leaves source intact (1.540264ms)
+✔ AC-002 valid pagination, numeric strings, defaults and out-of-range pages (0.359663ms)
+✔ AC-002 invalid page and pageSize raise clear errors (0.660226ms)
+✔ AC-003 list returns items and the total before pagination (0.15939ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.010598

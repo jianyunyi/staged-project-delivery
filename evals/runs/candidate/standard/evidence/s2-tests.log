@@ -1,0 +1,25 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test
+
+✔ AC-004 export filters exactly like list but ignores pagination (0.877344ms)
+✔ AC-004 default export is full and pagination has no validation effect (0.207223ms)
+✔ AC-005 exact header, zero price and only selected fields (0.140672ms)
+✔ AC-005 special characters in every field round trip independently (0.693756ms)
+✔ AC-004/005 service exports more than the default page with CSV escaping (0.399923ms)
+✔ AC-001 category filtering is exact and does not mutate catalog (1.381053ms)
+✔ AC-002 filtering precedes pagination and total is not page length (0.222165ms)
+✔ AC-002 defaults and service integration return items and total (0.189536ms)
+✔ AC-002 empty and far out of range pages preserve total (0.180442ms)
+✔ AC-003 positive numeric strings and integers are accepted (0.178289ms)
+✔ AC-003 illegal values throw for both pagination parameters (0.878475ms)
+✔ AC-003 invalid pagination fails even when category matches nothing (0.174434ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.968517

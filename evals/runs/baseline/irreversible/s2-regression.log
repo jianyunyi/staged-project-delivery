@@ -1,0 +1,14 @@
+test_execute_requires_exact_confirmation (__main__.SafetyTests.test_execute_requires_exact_confirmation) ... ok
+test_invalid_inventory (__main__.SafetyTests.test_invalid_inventory) ... ok
+test_mixed_selection_is_rejected_before_unlink (__main__.SafetyTests.test_mixed_selection_is_rejected_before_unlink) ... ok
+test_mocked_execute_only_selected (__main__.SafetyTests.test_mocked_execute_only_selected) ... ok
+test_retained_unknown_outside_and_empty (__main__.SafetyTests.test_retained_unknown_outside_and_empty) ... ok
+test_symlink_directory_hardlink_and_missing_refused (__main__.SafetyTests.test_symlink_directory_hardlink_and_missing_refused) ... ok
+test_valid_dry_run_never_unlinks (__main__.SafetyTests.test_valid_dry_run_never_unlinks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK
+FIXTURE_UNCHANGED {"expired-a.txt": "a173d594784a2d65d24a776cef272896b086e358ab71e29075ad580b8513732c", "expired-b.txt": "bf4c26f07a5886b49e1dcec95b00b70127d7a4b3b87d2d8bd9371e6051fbd5a5", "keep.txt": "1421bd39ed7909e73c6a15133925de8017258d060bf7be77d8073d832f7a4994"}
+ACTUAL_ARCHIVE_UNCHANGED {"expired-b.txt": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769", "keep.txt": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6"}

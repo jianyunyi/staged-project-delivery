@@ -1,0 +1,20 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test
+
+✔ AC-001 category filtering is exact and does not mutate catalog (1.378971ms)
+✔ AC-002 filtering precedes pagination and total is not page length (0.184959ms)
+✔ AC-002 defaults and service integration return items and total (0.183657ms)
+✔ AC-002 empty and far out of range pages preserve total (0.172109ms)
+✔ AC-003 positive numeric strings and integers are accepted (0.215956ms)
+✔ AC-003 illegal values throw for both pagination parameters (0.623962ms)
+✔ AC-003 invalid pagination fails even when category matches nothing (0.125219ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.839133
