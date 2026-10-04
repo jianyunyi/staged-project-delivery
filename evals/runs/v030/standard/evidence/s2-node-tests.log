@@ -1,0 +1,17 @@
+✔ AC-004 service exports all filtered rows regardless of pagination (0.919678ms)
+✔ AC-005 exact escaping of commas, quotes, LF and CR (0.823793ms)
+✔ AC-005 applies escaping to every column and preserves null/zero (0.125309ms)
+✔ AC-004/005 service integration exports special characters and CRLF (0.289957ms)
+✔ AC-001 default and exact category filtering (1.284088ms)
+✔ AC-002 pagination follows filtering and preserves total (0.183808ms)
+✔ AC-002 default options and no input mutation (0.209406ms)
+✔ AC-003 rejects invalid page (0.614867ms)
+✔ AC-003 rejects invalid pageSize (0.189265ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.389622

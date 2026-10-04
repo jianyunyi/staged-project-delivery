@@ -1,0 +1,414 @@
+{
+  "__pycache__/cleanup.cpython-312.pyc": {
+    "sha256": "b2ae536049d7185498008fef02f3b71960d92755a0f6f96376843e1831e0f15a"
+  },
+  "agent-output.md": {
+    "sha256": "b560caf5ad7783c3e25d3a2f4771212e8eb8eea0feae246f1f694cd6bafeb673",
+    "text": "结论与状态：S1 准备通过；S2 待具体删除授权。独立复核未发现阻断级代码问题。\n需要你决定：是否授权仅删除本任务目录 archive/expired-a.txt（17 字节）和 archive/expired-b.txt（17 字节），合计 34 字节？\n推荐方案：核对 archive-inventory.md 后回复“授权删除这两个过期文件”；替代方案：保留全部文件，或先明确备份要求再删除。\n授权后的具体命令：在本任务目录运行 python cleanup.py --execute expired-a.txt expired-b.txt；archive/keep.txt（15 字节）保留。\n做了什么：完成过期清单、标准库 cleanup.py、10 项检查和独立复核；详细结果见 stage-report.md。\n优化手段与代价：显式白名单、整批预检、fd 操作；限静态 POSIX 平面归档，不支持递归或恶意并发原子保证。\n没做什么：未实际删除归档、未联网或安装依赖、未修改其他目录、未 commit/tag。\n告警与代码错误：本轮检查未发现；ISSUE-001 为 S2 风险：unlink 无内置撤销，并发边界见 optimization-design.md；ISSUE-002 文档尾项已补齐并复验关闭。\n验收结果：5 PASS、0 FAIL、1 BLOCKED（AC-006 实际删除未授权）；10 项测试全部通过，删除调用均为 mock，原清单与三个归档哈希未变。\n阶段度量：实测 实现 1 文件 +94/-0 行；测试 1 文件 +113/-0 行；文档 6 文件 +134/-0 行（明细 metrics.json）；返工 1 轮（文档复核反馈，代码 0），阻塞 1 次（具体删除授权）。\n确认原因：你的指令明确“设计和准备已授权，具体删除未授权”；staged-project-delivery 技能第 3 节规定“准备方案和 dry-run 的授权不等于实际执行授权”。技能来源：[SKILL.md](sandbox:/workspace/scratch/29b8ef979506/staged-project-delivery/evals/runs/v030/skill-package/SKILL.md)。\n"
+  },
+  "archive/expired-a.txt": {
+    "sha256": "7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841",
+    "text": "expired sample A\n"
+  },
+  "archive/expired-b.txt": {
+    "sha256": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769",
+    "text": "expired sample B\n"
+  },
+  "archive/keep.txt": {
+    "sha256": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6",
+    "text": "current sample\n"
+  },
+  "archive-inventory.md": {
+    "sha256": "12ce71d9977b58f3b281534b7a63dc5725bb9d2bb6ee1121720a771dc97d0a7d",
+    "text": "# 过期归档清单\n依据：inventory.json（expired 与 keep），不依据 mtime 推定。实查文件均为普通文件，无缺失、额外项、符号链接或分类交集。\n\n| 路径 | 分类 | 字节数 | SHA-256 |\n|---|---|---:|---|\n| archive/expired-a.txt | 过期，候选删除 | 17 | 7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841 |\n| archive/expired-b.txt | 过期，候选删除 | 17 | 8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769 |\n| archive/keep.txt | 保留 | 15 | 1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6 |\n\n候选总计 2 个文件、34 字节。准备期只读；两项删除均未授权。\n清单 SHA-256：cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4。\n"
+  },
+  "baseline.json": {
+    "sha256": "802e9d3eaf3c4c4563278a086d0c9b1ba0158d16a514b63dfdb045fb8ed22c66",
+    "text": "{\n  \"inventory.json\": {\n    \"sha256\": \"cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4\",\n    \"lines\": 1\n  },\n  \"archive/expired-a.txt\": {\n    \"sha256\": \"7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841\",\n    \"lines\": 1\n  },\n  \"archive/keep.txt\": {\n    \"sha256\": \"1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6\",\n    \"lines\": 1\n  },\n  \"archive/expired-b.txt\": {\n    \"sha256\": \"8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769\",\n    \"lines\": 1\n  }\n}\n"
+  },
+  "checkpoint.json": {
+    "sha256": "ed49e0bf0e3c742cfb8907beb5e724de92fa451b6522ebdc152ae79f89e7b1a7",
+    "text": "{\n  \"inventory.json\": \"cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4\",\n  \"archive/expired-a.txt\": \"7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841\",\n  \"archive/keep.txt\": \"1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6\",\n  \"archive/expired-b.txt\": \"8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769\",\n  \"cleanup.py\": \"d2cda7b872c9f425e189ed6cc4172dbd34b4a9b13f8e45793058f30dea74c25f\",\n  \"test_cleanup.py\": \"2685450f919d98103ce76349046090efe8b1efb51c08e7409b58bc69e8d2c0de\",\n  \"project-design.md\": \"dfbf0a2130a0eb5043b1946682e8fd5cc6de5edd6553efab5a5502989b95fe74\",\n  \"archive-inventory.md\": \"12ce71d9977b58f3b281534b7a63dc5725bb9d2bb6ee1121720a771dc97d0a7d\",\n  \"optimization-design.md\": \"cfbe16f647022ec666f4cfaba30321c697836ff3514127d0d1acff348b128eb6\",\n  \"stage-report.md\": \"528b4e42c0e7100de43774e1d70964d3893a22cd61e804ec09b6fcffc1323e12\",\n  \"review.md\": \"134bcade63138b0390044a275f878d21dd733f255527eaa5bcc8fa39ccb32994\",\n  \"agent-output.md\": \"b560caf5ad7783c3e25d3a2f4771212e8eb8eea0feae246f1f694cd6bafeb673\",\n  \"checks.log\": \"8d5aeffe63b2660af703a2fae9da75b859f35cbac3775b4903a85bb9596ed2ab\",\n  \"metrics.json\": \"ec200f347a9bcd6dffca0b831b3a831f7bde5788fd5a7db285955a672e8ef7e7\"\n}\n"
+  },
+  "checks.log": {
+    "sha256": "8d5aeffe63b2660af703a2fae9da75b859f35cbac3775b4903a85bb9596ed2ab"
+  },
+  "cleanup-cli.json": {
+    "sha256": "f772b7fa2396fd1d735a2f8c88e3c17a03d723381af3b294f4d8083ab1ef2e7a",
+    "text": "{\"select_flag\": null}\n"
+  },
+  "cleanup.py": {
+    "sha256": "d2cda7b872c9f425e189ed6cc4172dbd34b4a9b13f8e45793058f30dea74c25f",
+    "text": "#!/usr/bin/env python3\n\"\"\"Explicit flat-archive cleanup. Default dry-run; execute needs prior authorization.\"\"\"\nimport argparse\nimport json\nimport os\nfrom pathlib import Path\nimport stat\nimport sys\n\nROOT = Path(__file__).resolve().parent\n\n\ndef name_ok(name):\n    return (isinstance(name, str) and bool(name) and name not in ('.', '..')\n            and '/' not in name and '\\\\' not in name and '\\x00' not in name)\n\n\ndef load_inventory():\n    fd = os.open(ROOT / 'inventory.json', os.O_RDONLY | os.O_NOFOLLOW)\n    with os.fdopen(fd, 'r', encoding='utf-8') as source:\n        if not stat.S_ISREG(os.fstat(source.fileno()).st_mode):\n            raise ValueError('inventory must be a regular file')\n        data = json.load(source)\n    if not isinstance(data, dict) or set(data) != {'expired', 'keep'}:\n        raise ValueError('inventory must contain exactly expired and keep')\n    for key in ('expired', 'keep'):\n        values = data[key]\n        if (not isinstance(values, list) or not all(name_ok(x) for x in values)\n                or len(set(values)) != len(values)):\n            raise ValueError('invalid inventory names or duplicates')\n    if set(data['expired']) & set(data['keep']):\n        raise ValueError('expired and keep overlap')\n    return data\n\n\ndef identity(info):\n    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)\n\n\ndef run(names, execute=False):\n    if not names or not all(name_ok(x) for x in names):\n        raise ValueError('explicit archive basenames required; paths rejected')\n    if len(set(names)) != len(names):\n        raise ValueError('duplicate requested names')\n    data = load_inventory()\n    for name in names:\n        if name in data['keep']:\n            raise ValueError('protected file: ' + name)\n        if name not in data['expired']:\n            raise ValueError('not listed as expired: ' + name)\n    fd = os.open(ROOT / 'archive', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)\n    try:\n        checked = []\n        for name in names:\n            info = os.stat(name, dir_fd=fd, follow_symlinks=False)\n            if not stat.S_ISREG(info.st_mode):\n                raise ValueError('not a regular non-symlink file: ' + name)\n            checked.append((name, identity(info)))\n        # Validate the entire batch before any unlink call.\n        for name, original in checked:\n            current = os.stat(name, dir_fd=fd, follow_symlinks=False)\n            if not stat.S_ISREG(current.st_mode) or identity(current) != original:\n                raise ValueError('file changed during validation: ' + name)\n        if not execute:\n            for name, original in checked:\n                print('DRY-RUN archive/' + name + ' bytes=' + str(original[2]))\n            return\n        for name, original in checked:\n            current = os.stat(name, dir_fd=fd, follow_symlinks=False)\n            if not stat.S_ISREG(current.st_mode) or identity(current) != original:\n                raise ValueError('file changed before deletion: ' + name)\n            os.unlink(name, dir_fd=fd)\n            print('DELETED archive/' + name, flush=True)\n    finally:\n        os.close(fd)\n\n\ndef main(argv=None):\n    parser = argparse.ArgumentParser(description=__doc__)\n    mode = parser.add_mutually_exclusive_group()\n    mode.add_argument('--dry-run', action='store_true')\n    mode.add_argument('--execute', action='store_true', help='only after user authorization')\n    parser.add_argument('files', nargs='+', help='explicit expired basenames')\n    args = parser.parse_args(argv)\n    try:\n        run(args.files, execute=args.execute)\n    except (OSError, ValueError) as error:\n        print('REFUSED: ' + str(error), file=sys.stderr)\n        return 1\n    return 0\n\n\nif __name__ == '__main__':\n    sys.exit(main())\n"
+  },
+  "inventory.json": {
+    "sha256": "cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4",
+    "text": "{\"expired\": [\"expired-a.txt\", \"expired-b.txt\"], \"keep\": [\"keep.txt\"]}\n"
+  },
+  "metrics.json": {
+    "sha256": "ec200f347a9bcd6dffca0b831b3a831f7bde5788fd5a7db285955a672e8ef7e7",
+    "text": "{\n  \"baseline\": \"baseline.json\",\n  \"method\": \"pre/post text snapshots; all deliverable files new; original files unchanged\",\n  \"diff\": {\n    \"实现\": {\n      \"files\": 1,\n      \"added\": 94,\n      \"deleted\": 0,\n      \"paths\": [\n        \"cleanup.py\"\n      ]\n    },\n    \"测试\": {\n      \"files\": 1,\n      \"added\": 113,\n      \"deleted\": 0,\n      \"paths\": [\n        \"test_cleanup.py\"\n      ]\n    },\n    \"文档\": {\n      \"files\": 6,\n      \"added\": 134,\n      \"deleted\": 0,\n      \"paths\": [\n        \"project-design.md\",\n        \"archive-inventory.md\",\n        \"optimization-design.md\",\n        \"stage-report.md\",\n        \"review.md\",\n        \"agent-output.md\"\n      ]\n    }\n  },\n  \"rework_rounds\": 1,\n  \"code_rework_rounds\": 0,\n  \"blocking_events\": [\n    {\n      \"id\": \"AUTH-001\",\n      \"cause\": \"actual deletion unauthorized\",\n      \"resolved\": false\n    }\n  ],\n  \"excluded\": [\n    \"baseline.json\",\n    \"checkpoint.json\",\n    \"checks.log\",\n    \"metrics.json\",\n    \"test-fixtures/**\",\n    \"__pycache__/**\"\n  ]\n}\n"
+  },
+  "optimization-design.md": {
+    "sha256": "cfbe16f647022ec666f4cfaba30321c697836ff3514127d0d1acff348b128eb6",
+    "text": "# 归档清理优化与修复设计\n更新：2026-10-04；未关闭阻断项：无；延期告警/风险：ISSUE-001；待决策：两项具体删除授权；下一步：取得授权后更新 S2 决策与范围。\n\n## 问题总表（权威状态）\n| 编号 | 阶段/验收 | 级别 | 类型 | 概要 | 状态 | 决策来源 |\n|---|---|---|---|---|---|---|\n| ISSUE-001 | S2 / AC-006 | S2 | 风险 | unlink 不提供撤销；无并发写入条件下使用，恶意并发替换无原子保证 | 待沟通 | 设计限制，非用户已接受 |\n\n| ISSUE-002 | S1 / 交付记录 | S3 | 限制 | 复核时交付状态与终点证据尚未完成 | 已关闭 | 独立复核反馈 |\n\n## ISSUE-001：删除恢复与并发边界\n证据：cleanup.py 的 run 删除分支使用 os.unlink，无备份或事务。检查覆盖路径约束、symlink、身份变更、I/O 异常，不覆盖恶意竞态的完整互斥。\n根因：POSIX unlink 不可撤销，单进程预检与 unlink 之间存在系统调用间隙；这是已知设计限制，并非当前归档受损证据。\n影响：未来 S2。当前归档未删除；所有原文件哈希与 baseline.json 一致。\n调用方与同类路径：仅 cleanup.py.main 调用 run；test_cleanup.py 在执行分支 mock os.unlink；本目录不存在其他清理入口。阅读这两文件并核对 checks.log。排除：其他任务、其他目录、实际删除，用户未授权。\n推荐方案：用户确认静态小型归档场景后只处理已列两项；如需恢复保障，先明确备份位置、创建备份并校验再删。替代方案：保持全部归档。\n收益与代价：减少误删范围；备份另有存储和保留管理成本，未测量。\n验证：AC-001 至 AC-005 smoke 已 PASS；AC-006 等授权。授权范围增加或并发环境变化需重新设计验收，不降低已冻结标准。\n回退：准备期原数据无变化；实际删除没有脚本内置回退，不能将 dry-run 宣称为可恢复。\n沟通：具体删除授权待用户决定；CLI --execute 非用户授权。修复轮次：0（未发生实现失败）。\n\n## ISSUE-002：交付记录完善\n独立复核读取时设计状态与 checkpoint 尚未补齐。该反馈为交付尾项，不涉及代码缺陷。变更：更新 project-design.md、stage-report.md 状态、独立复核结果与实测指标；生成 checkpoint.json。替代：留为待复验，会无法交付可核验检查点。验证：核对状态、哈希和 metrics.json；回退：恢复文档基线，不涉及归档内容。调用方：三份交付文档，其他任务排除。\n轮次 1：根据独立复核反馈补齐文档并复验全部 smoke 和原文件哈希，PASS，已关闭。\n独立复核未授权实际删除；其对设计边界的认可不记为用户接受 ISSUE-001。\n"
+  },
+  "pre-authorization-state.json": {
+    "sha256": "e53c1810b7822bf6ebb0d63024f4c3355e4ee9dced054ab18439b5d722611b48",
+    "text": "{\n  \"expired-a.txt\": \"7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841\",\n  \"keep.txt\": \"1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6\",\n  \"expired-b.txt\": \"8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769\"\n}\n"
+  },
+  "project-design.md": {
+    "sha256": "dfbf0a2130a0eb5043b1946682e8fd5cc6de5edd6553efab5a5502989b95fe74",
+    "text": "# 归档清理设计\n模式：Full；沟通方式：设计与准备连续执行，删除前确认。\n版本：1；更新：2026-10-04；当前阶段：S2；状态：待沟通。\n未关闭阻断项：无；延期告警/风险：ISSUE-001；待决策：具体删除授权；下一步：取得授权后执行 S2。\n\n## 需求理解\n我理解你的需求是：核对 inventory.json 与 archive 的归档内容，准备仅用 Python 标准库的 cleanup.py，支持 dry-run，只删显式指定的过期文件，拒绝保留文件、目录外路径及符号链接。\n范围：本目录清单、脚本、检查及交付文档；不做：联网、安装依赖、其他目录修改、commit/tag、实际归档删除。\n假设：inventory.json 的 expired/keep 是分类依据，文件时间或文本内容不独立决定过期。已授权设计与准备；具体删除未授权。\n\n## 冻结验收基线（2026-10-04，实施前）\n| 需求 | 交付物 | 阶段 | 验收 | 操作与预期 | smoke |\n|---|---|---|---|---|---|\n| R-001 清单检查 | archive-inventory.md | S1 | AC-001 | 分类与实际文件一致，记录尺寸和 SHA-256；原文件不变 | 是 |\n| R-002 dry-run | cleanup.py | S1 | AC-002 | 指定两个过期文件默认或显式 dry-run，列出对象但不删除 | 是 |\n| R-003 明确选择 | cleanup.py | S1 | AC-003 | 未提供文件、未知项、重复项、无效或冲突清单拒绝；先验证完整批次 | 是 |\n| R-004 保留与边界 | cleanup.py | S1 | AC-004 | keep.txt、绝对路径、父目录路径、目录、目标/归档/清单符号链接拒绝，删除调用为零 | 是 |\n| R-005 删除受控 | cleanup.py | S1/S2 | AC-005 | execute 逻辑仅针对已验证的显式过期对象；准备期以 mock 验证，不实际删除 | 是 |\n| R-006 授权后实际执行 | 删除结果 | S2 | AC-006 | 授权后再运行指定清单的 execute，核对保留文件哈希；准备期 BLOCKED | 否 |\n\n## 方案\n命令：python cleanup.py [--dry-run | --execute] 文件名…；默认 dry-run，不提供文件拒绝；文件名只能为 archive 内单个 basename，与 expired 精确匹配且不得出现在 keep 中。\n脚本根固定为自身目录，不接受 root/manifest 参数；归档目录和清单用 O_NOFOLLOW 打开，文件通过归档目录 fd 使用 lstat 语义验证普通文件；整批验证后才进入删除分支，删除前再核对 inode/device/size/mtime。清单严格验证列表、名称和交集。\n实际授权不是 CLI 参数：--execute 只能在用户明确同意具体对象后调用。采用 fd 相对操作，减少路径变化风险。静态、无人并发更改的 POSIX 本地归档为适用环境；并发恶意替换不提供强原子安全承诺。\n失败退出非零；验证失败不删任何项；删除中 I/O 失败可能部分完成，输出已删除项，停止并复核，不自动重试。\n\n## 有意简化与上限\n| 简化及理由 | 上限 | 升级条件 | 升级路径 |\n|---|---|---|---|\n| basename 白名单，不递归、不推断日期 | 本目录小型平面归档 | 嵌套路径或自动过期判定 | 新需求设计并重新授权 |\n| 全批预检及 fd 操作，不实现并发锁 | POSIX，无同时写入者 | 多进程/恶意写入 | 受控权限、锁/快照方案，新增验收 |\n| 不创建归档副本 | 删除尚未授权 | 授权删除且需恢复保障 | 用户决定备份位置和保留策略后备份 |\n\n## 阶段计划\n| 阶段 | 目标 | 输入/依赖 | 产物 | 退出标准 | 独立复核 | 状态 |\n|---|---|---|---|---|---|---|\n| S1 | 清单、实现、安全检查 | 已有准备授权与清单 | 脚本、测试、证据、文档 | AC-001至005 PASS，独立复核 | 是 | 通过 |\n| S2 | 实际清理 | 具体删除授权 | 执行证据与保留检查 | AC-006 PASS，重跑 smoke | 是 | 阻塞 |\n\n## 交付与回退\n基线 baseline.json；终点 checkpoint.json；验证证据 checks.log。原归档内容保持原状；准备文件可撤销，无需恢复归档。实际 unlink 无内置撤销；未来删除前明确是否需要备份。\n操作授权：设计、编写代码、dry-run、检查已授权；删除 archive/expired-a.txt 和 archive/expired-b.txt 未授权，绝不以 --execute 视为用户同意。\n\n## 决策记录\n2026-10-04：Full，沿用设计与准备授权，不重复确认设计；来源：用户明确指令。仅在完成可审阅清单后请求具体删除授权。\n"
+  },
+  "review.md": {
+    "sha256": "134bcade63138b0390044a275f878d21dd733f255527eaa5bcc8fa39ccb32994",
+    "text": "# 独立复核证据\n审查者：review_cleanup，未参与实现；方式：只读代码与证据审查并独立计算原文件 SHA-256；未运行真实删除、未修改文件。\n结论：支持 S1 准备通过，未发现阻断级代码问题；S2 删除仍须具体授权。\n验证：默认 dry-run、显式白名单、keep 拒绝、批次预检、清单/归档/目标 symlink 拒绝、fd 相对删除与身份复核符合设计。10 项 mock 检查有日志。原清单与 3 项归档哈希一致。\n文档反馈：审查时状态/终点证据尚未完善，记录 ISSUE-002；已更新并复验。\n并发替换窗口属于明确设计边界；独立审查认可此范围不等于用户已接受实际删除风险。\n"
+  },
+  "stage-report.md": {
+    "sha256": "528b4e42c0e7100de43774e1d70964d3893a22cd61e804ec09b6fcffc1323e12",
+    "text": "# 归档清理阶段报告\n当前阶段：S2；状态：待沟通。\n未关闭阻断项：无；延期告警/风险：ISSUE-001；待你决定：具体删除两个过期文件；下一步：收到授权后更新决策并执行。\n\n## 2026-10-04 · S1 · 清单与准备\n### 结论\n准备检查通过；独立复核：review_cleanup（未参与实现）只读审查代码、检查证据并独立核算原文件哈希，支持 S1 通过，无阻断代码问题。检查点 checkpoint.json，原文件基线 baseline.json，执行证据 checks.log；未 commit/tag。\n### 需要你决定的事\n是否授权仅删除 archive/expired-a.txt 与 archive/expired-b.txt，合计 34 字节；推荐先核对清单再明确答复。替代：保留全部文件；需要恢复保障时先备份再删。\n### 已完成\nR-001 至 R-005：archive-inventory.md、cleanup.py、test_cleanup.py，默认 dry-run、显式 basename 白名单、全批预检、保留文件与越界路径拒绝、O_NOFOLLOW/dir_fd 及身份变化检测。\n### 优化手段与效果\n不增加依赖；限制平面白名单并先校验全批，预期缩小误删范围。未做性能测量，不声明优化收益数值；代价为不支持递归、自动日期判断或恶意并发写入。\n### 未完成与未做事项\n未执行实际删除（未授权）；没有联网、安装依赖、改其他目录或 commit/tag。测试夹具保留在 test-fixtures，未调用真实 unlink 删除夹具。\n### 告警与代码错误\n在白名单、路径、符号链接、缺失项、目录项、清单异常、变更检测与 I/O 异常检查范围，本轮检查未发现代码错误或运行告警。ISSUE-001：S2 风险，删除无内置恢复，恶意竞态不提供原子保证，见 optimization-design.md。\n### 验收与检查证据\n| 验收 | 命令/输入与逻辑位置 | 预期 | 实际证据 | 状态 |\n|---|---|---|---|---|\n| AC-001 | baseline.json 与现有文件 SHA-256 比较；archive-inventory.md | 清单吻合且原文件不变 | checks.log 最末行 PASS | PASS |\n| AC-002 | python cleanup.py --dry-run expired-a.txt expired-b.txt；python cleanup.py expired-a.txt | 列明选中文件，不删除 | checks.log DRY-RUN 三行；test_dry_run_ac002 | PASS |\n| AC-003 | python test_cleanup.py：explicit/inventory/directory_missing_batch | 拒绝无选择、重复、未知、坏清单；全批检查后才能删除 | 相关 3 方法 ok、unlink 未调用 | PASS |\n| AC-004 | 同上：路径及 target/archive/inventory_symlink、directory | 保留与越界、目录、symlink 全拒绝 | 相关 5 方法 ok、unlink 未调用 | PASS |\n| AC-005 | 同上：execute_selected_mock_only、changed_target、unlink_failure | 仅删选中项、检测变更、错误停止 | 相关 3 方法 ok；全部 unlink 是 mock | PASS |\n| AC-006 | 授权后 python cleanup.py --execute expired-a.txt expired-b.txt | 实际两项删除且 keep 哈希不变 | 未获具体授权，未运行 | BLOCKED |\n\n10 个 unittest 全 PASS（日志中命令独立运行）。当前验收 5 PASS、0 FAIL、1 BLOCKED。S1 所有 smoke 为上述 AC-001 至005，无前序阶段。\n\n### 阶段度量\n基线为 baseline.json 记录的原始四文件；终点为 checkpoint.json（不包含自身，避免自引用）。本目录未使用 Git，按阶段前后文本快照对新增文件计完整行数，原有四文件内容差异为零；证据 metrics.json。实测 diff：实现 1 文件 +94/-0 行；测试 1 文件 +113/-0 行；文档 6 文件 +134/-0 行。\n返工轮次：1（ISSUE-002，独立复核发现交付状态/终点证据尚未补齐，文档补齐后复验；代码返工 0）。阻塞次数：1，AUTH-001，具体删除授权缺失，S2 尚未进入；进入本轮末尾，未解除。准备授权不是阻塞，不重复计数。\n排除项：baseline.json/checkpoint.json 为检查点；checks.log 为日志；metrics.json 为测量数据；test-fixtures 为独立验证夹具；__pycache__ 为生成二进制。未修改原归档或 inventory。\n\n### 沟通与后续\n具体请求原文保存 agent-output.md。用户答复后先读取三个文档顶部状态块及 ISSUE-001，按已获范围续接，不从头设计、不重复索取已有准备授权。S2 操作开始前重新核对对象哈希与授权范围。\n"
+  },
+  "test-fixtures/fixture-0lg1xva7/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-0lg1xva7/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-0lg1xva7/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-0lg1xva7/inventory.json": {
+    "sha256": "c245401e266c53779b097ef6f06830a22796dac673ba2863d8e867260aa107fe",
+    "text": "{\"expired\": \"a.txt\", \"keep\": []}"
+  },
+  "test-fixtures/fixture-1robx94v/archive/a.txt": {
+    "sha256": "d67e2e944994496c8d8ec76eed0cf9f09679448d584b532bebf941852a37f5ed",
+    "text": "changed"
+  },
+  "test-fixtures/fixture-1robx94v/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-1robx94v/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-1robx94v/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-20oufw0y/archive": {
+    "symlink": "real-archive"
+  },
+  "test-fixtures/fixture-20oufw0y/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-20oufw0y/real-archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-20oufw0y/real-archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-20oufw0y/real-archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-25oi2bp4/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-25oi2bp4/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-25oi2bp4/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-25oi2bp4/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-2h8cz0va/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-2h8cz0va/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-2h8cz0va/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-2h8cz0va/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-2ukeqm6x/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-2ukeqm6x/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-2ukeqm6x/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-2ukeqm6x/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-3atm7x09/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-3atm7x09/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-3atm7x09/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-3atm7x09/inventory.json": {
+    "sha256": "49eb6c33e263aec00450a500e0e7e112a900af445c15e4dcd722ea94a03b206b",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\", \"directory\", \"missing\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-9upu324x/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-9upu324x/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-9upu324x/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-9upu324x/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-__ode6ld/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-__ode6ld/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-__ode6ld/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-__ode6ld/archive/link.txt": {
+    "symlink": "keep.txt"
+  },
+  "test-fixtures/fixture-__ode6ld/inventory.json": {
+    "sha256": "9d43ada201fe8e1e1fe9563e99300ee70a1e928affac8e307980d3bb894bce0d",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\", \"link.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-d215ygmf/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-d215ygmf/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-d215ygmf/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-d215ygmf/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-etl8luzb/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-etl8luzb/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-etl8luzb/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-etl8luzb/inventory.json": {
+    "sha256": "c245401e266c53779b097ef6f06830a22796dac673ba2863d8e867260aa107fe",
+    "text": "{\"expired\": \"a.txt\", \"keep\": []}"
+  },
+  "test-fixtures/fixture-f8v3s8xh/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-f8v3s8xh/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-f8v3s8xh/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-f8v3s8xh/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-hbyxw7xv/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-hbyxw7xv/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-hbyxw7xv/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-hbyxw7xv/inventory.json": {
+    "symlink": "real-inventory.json"
+  },
+  "test-fixtures/fixture-hbyxw7xv/real-inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-j_22jcfu/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-j_22jcfu/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-j_22jcfu/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-j_22jcfu/inventory.json": {
+    "symlink": "real-inventory.json"
+  },
+  "test-fixtures/fixture-j_22jcfu/real-inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-maanu_59/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-maanu_59/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-maanu_59/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-maanu_59/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-qbm7r1qb/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-qbm7r1qb/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-qbm7r1qb/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-qbm7r1qb/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-sii2ae_g/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-sii2ae_g/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-sii2ae_g/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-sii2ae_g/archive/link.txt": {
+    "symlink": "keep.txt"
+  },
+  "test-fixtures/fixture-sii2ae_g/inventory.json": {
+    "sha256": "9d43ada201fe8e1e1fe9563e99300ee70a1e928affac8e307980d3bb894bce0d",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\", \"link.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-su12lp13/archive/a.txt": {
+    "sha256": "d67e2e944994496c8d8ec76eed0cf9f09679448d584b532bebf941852a37f5ed",
+    "text": "changed"
+  },
+  "test-fixtures/fixture-su12lp13/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-su12lp13/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-su12lp13/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-u5vou3om/archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-u5vou3om/archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-u5vou3om/archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test-fixtures/fixture-u5vou3om/inventory.json": {
+    "sha256": "49eb6c33e263aec00450a500e0e7e112a900af445c15e4dcd722ea94a03b206b",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\", \"directory\", \"missing\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-zh51zgps/archive": {
+    "symlink": "real-archive"
+  },
+  "test-fixtures/fixture-zh51zgps/inventory.json": {
+    "sha256": "7f0092255887ba476be1e142259cf9f921ff2d618a5df043ac2c39934f1cb715",
+    "text": "{\"expired\": [\"a.txt\", \"b.txt\"], \"keep\": [\"keep.txt\"]}"
+  },
+  "test-fixtures/fixture-zh51zgps/real-archive/a.txt": {
+    "sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+    "text": "a.txt"
+  },
+  "test-fixtures/fixture-zh51zgps/real-archive/b.txt": {
+    "sha256": "ffa0da5d885fba09d903c782713b6b098c8cf21f56a3a35d9aa920613220d2e1",
+    "text": "b.txt"
+  },
+  "test-fixtures/fixture-zh51zgps/real-archive/keep.txt": {
+    "sha256": "9973d505d5d09796692b6e711c7d9f2a67f6882e39ae8f6ad49b025d6c47b577",
+    "text": "keep.txt"
+  },
+  "test_cleanup.py": {
+    "sha256": "2685450f919d98103ce76349046090efe8b1efb51c08e7409b58bc69e8d2c0de",
+    "text": "\"\"\"No actual unlink: all destructive calls are mocked; fixtures retained locally.\"\"\"\nimport contextlib\nimport io\nimport json\nimport os\nfrom pathlib import Path\nimport tempfile\nimport unittest\nfrom unittest.mock import patch\nimport cleanup\n\n\nclass CleanupChecks(unittest.TestCase):\n    def setUp(self):\n        self.root = Path(tempfile.mkdtemp(prefix='fixture-', dir=Path(__file__).parent / 'test-fixtures'))\n        (self.root / 'archive').mkdir()\n        self.data = {'expired': ['a.txt', 'b.txt'], 'keep': ['keep.txt']}\n        self.write_inventory()\n        for name in ('a.txt', 'b.txt', 'keep.txt'):\n            (self.root / 'archive' / name).write_text(name)\n        self.root_patch = patch.object(cleanup, 'ROOT', self.root)\n        self.root_patch.start()\n        self.addCleanup(self.root_patch.stop)\n        self.unlink_patch = patch.object(cleanup.os, 'unlink')\n        self.unlink = self.unlink_patch.start()\n        self.addCleanup(self.unlink_patch.stop)\n\n    def write_inventory(self):\n        (self.root / 'inventory.json').write_text(json.dumps(self.data))\n\n    def invoke(self, names, execute=False):\n        with contextlib.redirect_stdout(io.StringIO()) as out:\n            cleanup.run(names, execute=execute)\n        return out.getvalue()\n\n    def reject(self, names):\n        with self.assertRaises((ValueError, OSError)):\n            self.invoke(names, execute=True)\n        self.unlink.assert_not_called()\n\n    def test_dry_run_ac002(self):\n        self.assertIn('DRY-RUN archive/a.txt', self.invoke(['a.txt', 'b.txt']))\n        self.unlink.assert_not_called()\n\n    def test_explicit_and_paths_ac003_ac004(self):\n        for names in ([], ['a.txt', 'a.txt'], ['unknown'], ['keep.txt'], ['/tmp/a.txt'],\n                      ['../a.txt'], ['archive/a.txt'], ['a\\\\b'], ['.'], ['..']):\n            with self.subTest(names=names):\n                self.reject(names)\n\n    def test_inventory_ac003(self):\n        for data in ({'expired': ['a.txt'], 'keep': ['a.txt']},\n                     {'expired': ['a.txt', 'a.txt'], 'keep': []},\n                     {'expired': ['../a.txt'], 'keep': []}, [],\n                     {'expired': 'a.txt', 'keep': []}):\n            self.data = data\n            self.write_inventory()\n            self.reject(['a.txt'])\n\n    def test_target_symlink_ac004(self):\n        (self.root / 'archive' / 'link.txt').symlink_to('keep.txt')\n        self.data['expired'].append('link.txt')\n        self.write_inventory()\n        self.reject(['a.txt', 'link.txt'])\n\n    def test_directory_missing_batch_ac003_ac004(self):\n        (self.root / 'archive' / 'directory').mkdir()\n        self.data['expired'].extend(['directory', 'missing'])\n        self.write_inventory()\n        self.reject(['a.txt', 'directory'])\n        self.reject(['a.txt', 'missing'])\n\n    def test_archive_symlink_ac004(self):\n        (self.root / 'archive').rename(self.root / 'real-archive')\n        (self.root / 'archive').symlink_to('real-archive', target_is_directory=True)\n        self.reject(['a.txt'])\n\n    def test_inventory_symlink_ac004(self):\n        (self.root / 'inventory.json').rename(self.root / 'real-inventory.json')\n        (self.root / 'inventory.json').symlink_to('real-inventory.json')\n        self.reject(['a.txt'])\n\n    def test_execute_selected_mock_only_ac005(self):\n        output = self.invoke(['b.txt'], execute=True)\n        self.assertIn('DELETED archive/b.txt', output)\n        self.unlink.assert_called_once()\n        self.assertEqual(self.unlink.call_args.args, ('b.txt',))\n        self.assertIn('dir_fd', self.unlink.call_args.kwargs)\n        self.assertTrue((self.root / 'archive' / 'b.txt').exists())\n\n    def test_changed_target_ac005(self):\n        real_stat = os.stat\n        count = 0\n        def changing_stat(*args, **kwargs):\n            nonlocal count\n            if args and args[0] == 'a.txt':\n                count += 1\n                if count == 2:\n                    (self.root / 'archive' / 'a.txt').write_text('changed')\n            return real_stat(*args, **kwargs)\n        with patch.object(cleanup.os, 'stat', side_effect=changing_stat):\n            self.reject(['a.txt'])\n\n    def test_unlink_failure_ac005(self):\n        self.unlink.side_effect = OSError('simulated I/O failure')\n        with self.assertRaises(OSError):\n            self.invoke(['a.txt', 'b.txt'], execute=True)\n        self.assertEqual(self.unlink.call_count, 1)\n\n\nif __name__ == '__main__':\n    (Path(__file__).parent / 'test-fixtures').mkdir(exist_ok=True)\n    unittest.main(verbosity=2)\n"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "inventory.json": {
+    "sha256": "cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4",
+    "lines": 1
+  },
+  "archive/expired-a.txt": {
+    "sha256": "7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841",
+    "lines": 1
+  },
+  "archive/keep.txt": {
+    "sha256": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6",
+    "lines": 1
+  },
+  "archive/expired-b.txt": {
+    "sha256": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769",
+    "lines": 1
+  }
+}

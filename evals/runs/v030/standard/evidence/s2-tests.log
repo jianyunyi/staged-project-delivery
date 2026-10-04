@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test
+
+✔ AC-004 service exports all filtered rows regardless of pagination (1.106039ms)
+✔ AC-005 exact escaping of commas, quotes, LF and CR (0.928822ms)
+✔ AC-005 applies escaping to every column and preserves null/zero (0.182004ms)
+✔ AC-004/005 service integration exports special characters and CRLF (0.33125ms)
+✔ AC-001 default and exact category filtering (1.660655ms)
+✔ AC-002 pagination follows filtering and preserves total (0.248545ms)
+✔ AC-002 default options and no input mutation (0.20547ms)
+✔ AC-003 rejects invalid page (0.552483ms)
+✔ AC-003 rejects invalid pageSize (0.273672ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 97.807057

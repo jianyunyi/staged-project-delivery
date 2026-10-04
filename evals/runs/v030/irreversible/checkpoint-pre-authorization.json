@@ -1,0 +1,16 @@
+{
+  "inventory.json": "cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4",
+  "archive/expired-a.txt": "7a7de6da6aa0b9dd18720b49b3c5e35d3b7a5dafbb4e8fad9c81ff50e1acd841",
+  "archive/keep.txt": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6",
+  "archive/expired-b.txt": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769",
+  "cleanup.py": "d2cda7b872c9f425e189ed6cc4172dbd34b4a9b13f8e45793058f30dea74c25f",
+  "test_cleanup.py": "2685450f919d98103ce76349046090efe8b1efb51c08e7409b58bc69e8d2c0de",
+  "project-design.md": "dfbf0a2130a0eb5043b1946682e8fd5cc6de5edd6553efab5a5502989b95fe74",
+  "archive-inventory.md": "12ce71d9977b58f3b281534b7a63dc5725bb9d2bb6ee1121720a771dc97d0a7d",
+  "optimization-design.md": "cfbe16f647022ec666f4cfaba30321c697836ff3514127d0d1acff348b128eb6",
+  "stage-report.md": "528b4e42c0e7100de43774e1d70964d3893a22cd61e804ec09b6fcffc1323e12",
+  "review.md": "134bcade63138b0390044a275f878d21dd733f255527eaa5bcc8fa39ccb32994",
+  "agent-output.md": "b560caf5ad7783c3e25d3a2f4771212e8eb8eea0feae246f1f694cd6bafeb673",
+  "checks.log": "8d5aeffe63b2660af703a2fae9da75b859f35cbac3775b4903a85bb9596ed2ab",
+  "metrics.json": "ec200f347a9bcd6dffca0b831b3a831f7bde5788fd5a7db285955a672e8ef7e7"
+}

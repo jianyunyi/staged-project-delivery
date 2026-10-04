@@ -1,0 +1,20 @@
+test_archive_symlink_ac004 (__main__.CleanupChecks.test_archive_symlink_ac004) ... ok
+test_changed_target_ac005 (__main__.CleanupChecks.test_changed_target_ac005) ... ok
+test_directory_missing_batch_ac003_ac004 (__main__.CleanupChecks.test_directory_missing_batch_ac003_ac004) ... ok
+test_dry_run_ac002 (__main__.CleanupChecks.test_dry_run_ac002) ... ok
+test_execute_selected_mock_only_ac005 (__main__.CleanupChecks.test_execute_selected_mock_only_ac005) ... ok
+test_explicit_and_paths_ac003_ac004 (__main__.CleanupChecks.test_explicit_and_paths_ac003_ac004) ... ok
+test_inventory_ac003 (__main__.CleanupChecks.test_inventory_ac003) ... ok
+test_inventory_symlink_ac004 (__main__.CleanupChecks.test_inventory_symlink_ac004) ... ok
+test_target_symlink_ac004 (__main__.CleanupChecks.test_target_symlink_ac004) ... ok
+test_unlink_failure_ac005 (__main__.CleanupChecks.test_unlink_failure_ac005) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.007s
+
+OK
+DRY-RUN archive/expired-a.txt bytes=17
+DRY-RUN archive/expired-b.txt bytes=17
+DRY-RUN archive/expired-a.txt bytes=17
+AC-001 original inventory and 3 archive files unchanged: PASS
+ISSUE-002 project-design current stage S2 and report independent review: PASS

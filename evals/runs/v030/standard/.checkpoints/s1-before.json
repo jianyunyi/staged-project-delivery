@@ -1,0 +1,7 @@
+{
+  "csv.js": "exports.csv = (items) => \"id,name,price\\n\" + items.map(x=>`${x.id},${x.name},${x.price}`).join(\"\\n\");\n",
+  "query.js": "exports.query = (items) => items;\n",
+  "catalog.js": "exports.items = [{id:1,name:\"茶\",category:\"drink\",price:0},{id:2,name:\"咖啡\",category:\"drink\",price:20},{id:3,name:\"饼干\",category:\"food\",price:10}];\n",
+  "package.json": "{\"private\":true,\"scripts\":{\"test\":\"node --test\"}}\n",
+  "service.js": "const {items}=require(\"./catalog\");const {query}=require(\"./query\");const {csv}=require(\"./csv\");exports.list=(options)=>query(items,options);exports.exportCsv=(options)=>csv(query(items,options));\n"
+}

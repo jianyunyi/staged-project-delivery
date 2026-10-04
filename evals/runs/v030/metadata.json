@@ -1,0 +1,11 @@
+{
+  "skill_sha256": "f29bd176bd7480bde47b46a709d68ac13811832f72b7e1c97041d385a559a30f",
+  "package_hashes": {
+    "SKILL.md": "f29bd176bd7480bde47b46a709d68ac13811832f72b7e1c97041d385a559a30f",
+    "agents/openai.yaml": "886bc24d82ece6ecd2fe46093a184ace8663028aca893e81d108ce5dfbf06e35",
+    "assets/icon.svg": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26",
+    "references/document-templates.md": "ffb6b2db006435d7cb73975d1de8a7daa4095ead6acce0ba0197dd9962145d70",
+    "references/example.md": "99971918f518080ddfa3e77690650cd6e38a60114a1adb8855d1dd874d324c7b"
+  },
+  "skill_source": "/root/.codex/skills/remote-skills/skill-6ac1ffb58ccc819187bc02482db0bb13/SKILL.md"
+}

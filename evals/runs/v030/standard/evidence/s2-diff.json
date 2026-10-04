@@ -1,0 +1,38 @@
+[
+  {
+    "file": "csv.js",
+    "category": "实现",
+    "added": 8,
+    "deleted": 1
+  },
+  {
+    "file": "optimization-design.md",
+    "category": "文档",
+    "added": 4,
+    "deleted": 2
+  },
+  {
+    "file": "project-design.md",
+    "category": "文档",
+    "added": 3,
+    "deleted": 3
+  },
+  {
+    "file": "service.js",
+    "category": "实现",
+    "added": 5,
+    "deleted": 1
+  },
+  {
+    "file": "stage-report.md",
+    "category": "文档",
+    "added": 28,
+    "deleted": 2
+  },
+  {
+    "file": "test/csv.test.js",
+    "category": "测试",
+    "added": 51,
+    "deleted": 0
+  }
+]

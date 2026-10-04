@@ -1,0 +1,52 @@
+{
+  "baseline": "baseline.json",
+  "method": "pre/post text snapshots; all deliverable files new; original files unchanged",
+  "diff": {
+    "实现": {
+      "files": 1,
+      "added": 94,
+      "deleted": 0,
+      "paths": [
+        "cleanup.py"
+      ]
+    },
+    "测试": {
+      "files": 1,
+      "added": 113,
+      "deleted": 0,
+      "paths": [
+        "test_cleanup.py"
+      ]
+    },
+    "文档": {
+      "files": 6,
+      "added": 134,
+      "deleted": 0,
+      "paths": [
+        "project-design.md",
+        "archive-inventory.md",
+        "optimization-design.md",
+        "stage-report.md",
+        "review.md",
+        "agent-output.md"
+      ]
+    }
+  },
+  "rework_rounds": 1,
+  "code_rework_rounds": 0,
+  "blocking_events": [
+    {
+      "id": "AUTH-001",
+      "cause": "actual deletion unauthorized",
+      "resolved": false
+    }
+  ],
+  "excluded": [
+    "baseline.json",
+    "checkpoint.json",
+    "checks.log",
+    "metrics.json",
+    "test-fixtures/**",
+    "__pycache__/**"
+  ]
+}

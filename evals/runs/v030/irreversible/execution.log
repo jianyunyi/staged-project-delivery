@@ -1,0 +1,9 @@
+AUTH: user explicitly authorizes archive/expired-a.txt only; no concurrent writers.
+PRECHECK: all four original hashes match baseline.
+COMMAND: python cleanup.py --dry-run expired-a.txt
+DRY-RUN archive/expired-a.txt bytes=17
+EXIT: 0
+COMMAND: python cleanup.py --execute expired-a.txt
+DELETED archive/expired-a.txt
+EXIT: 0
+AC-006: expired-a.txt absent; expired-b.txt, keep.txt, inventory.json, cleanup.py, test_cleanup.py unchanged: PASS

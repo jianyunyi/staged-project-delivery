@@ -16,8 +16,10 @@ jobs:
         with:
           python-version: '3.12'
       - name: Rerun candidate artifact functional checks
-        run: python3 evals/scripts/run.py check candidate
+        run: python3 evals/scripts/run.py check-current
       - name: Reject missing, stale or failing behavioral evidence
         run: python3 evals/scripts/verify_evidence.py
+      - name: Check evidence gate rejection paths
+        run: python3 evals/scripts/test_gates.py
       - name: Compare baseline and candidate
-        run: python3 evals/scripts/run.py compare baseline candidate
+        run: python3 evals/scripts/run.py compare-current

@@ -1,0 +1,13 @@
+interface:
+  display_name: 分阶段设计与交付
+  short_description: 先重述需求并设计，按阶段汇报成果与问题，沟通后持续修复和验收
+  default_prompt: 请使用 $staged-project-delivery 处理我的项目：先重述需求、创建设计文档并拆分阶段，每阶段汇报成果与问题，沟通后记录方案并修复到验收标准。
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

@@ -1,0 +1,37 @@
+[
+  {
+    "case": "complete-evidence",
+    "exit_code": 0,
+    "expected_pass": true,
+    "pass": true,
+    "output": "Current skill is bound to complete, passing, manually reviewed evaluation evidence."
+  },
+  {
+    "case": "reject-stale-skill",
+    "exit_code": 1,
+    "expected_pass": false,
+    "pass": true,
+    "output": "AssertionError: Skill package changed: rerun all three fresh-agent cases."
+  },
+  {
+    "case": "reject-overlong-agents",
+    "exit_code": 1,
+    "expected_pass": false,
+    "pass": true,
+    "output": "AssertionError: AGENTS.md exceeds 30 lines."
+  },
+  {
+    "case": "reject-missing-metrics-evidence",
+    "exit_code": 1,
+    "expected_pass": false,
+    "pass": true,
+    "output": "AssertionError: New rule lacks reviewed evidence."
+  },
+  {
+    "case": "reject-changed-fallback-rules",
+    "exit_code": 1,
+    "expected_pass": false,
+    "pass": true,
+    "output": "AssertionError: Fallback rules changed: review coverage again."
+  }
+]

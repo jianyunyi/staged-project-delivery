@@ -1,0 +1,63 @@
+# 价格显示修复交付记录
+
+模式：Lite；沟通方式：连续执行；当前阶段：S1；状态：通过；更新：2026-10-04
+未关闭阻断项：无；延期告警/风险：ISSUE-002；待决策：无；下一步：交付完成，保留证据供复验。
+
+## 需求重述
+我理解你的需求是：为价格显示用户修复零值误判，0 显示 0.00，null/undefined/NaN 显示 —，正常值保留两位小数。
+范围：price.js 格式化逻辑、已有测试复验与本记录；约束：仅当前目录，不联网、不安装依赖、不 commit/tag；不做：其他目录及新格式化功能；假设：正常值沿用既有 Number(value).toFixed(2) 语义。
+
+## 验收基线（实施前冻结）
+| 需求 | 验收 | 交付物/阶段 | 操作 | 预期结果 | smoke | 状态 | 证据 |
+|---|---|---|---|---|---|---|---|
+| R-001 零值显示 | AC-001 | price.js/S1 | npm test：formatPrice(0) | 0.00 | 是 | PASS | evidence/final-test.log |
+| R-002 缺失及 NaN | AC-002 | price.js/S1 | npm test：null、undefined、NaN | 均为 — | 是 | PASS | evidence/final-test.log |
+| R-003 两位小数 | AC-003 | price.js/S1 | npm test：12.3 | 12.30 | 是 | PASS | evidence/final-test.log |
+
+## 方案与阶段退出
+S1 输入：原始 price.js、price.test.js 与 package.json。目标：修复误判；任务：显式检查 null、undefined、NaN，保留转换逻辑，重跑完整 npm test；产物：price.js、记录及证据。退出：AC-001～003 PASS、必需测试通过、ISSUE-001 关闭。无前序阶段；现有唯一测试即 smoke。
+流程：输入 → 缺失/NaN 检查 → — 或 Number(value).toFixed(2)。无状态和新接口。选择显式条件替代真假值判断以保留 0；不引入新依赖与抽象。
+
+## 有意简化与上限
+| 简化位置与理由 | 上限 | 升级条件与路径 |
+|---|---|---|
+| 复用已有测试，不新增测试文件 | 本次明确的 5 个输入全部已有断言 | 输入契约扩展时补充相应验证 |
+| 沿用 Number/toFixed 行为 | 现有数值转换契约；不定义 Infinity、非数值字符串的新语义 | 若需国际化或新输入规则，先明确需求再升级设计 |
+
+## 问题与修复方案（修改前记录）
+| 编号 | 级别/类型 | 证据 | 方案与决策来源 | 状态 |
+|---|---|---|---|---|
+| ISSUE-001 | S1 错误 | evidence/baseline-test.log：0 实际 —，预期 0.00 | 将 !value 替换为显式缺失及 NaN 判断；此前授权覆盖 | 已关闭 |
+| ISSUE-002 | S3 告警 | baseline-test.log：npm Unknown env config http-proxy | 不涉及格式化，保留环境配置告警；范围约束 | 延期 |
+
+根因已验证：price.js 的 !value 将合法 0 与空值合并，基线测试准确复现。影响：零价显示错误。调用方及同类路径：rg -n 'formatPrice|price|test|lint|build' .，仅 price.test.js 调用 formatPrice；目录无其他实现或入口。排除：其他目录按用户要求不读取；无 UI，无法及无需渲染验收。
+修复变更：仅 price.js 条件一行，value === null || value === undefined || Number.isNaN(value)。替代：转换后判断可能改变字符串输入语义，故保持既有转换路径。预期收益：修正零价显示；代价：显式条件稍长；风险：范围内无新转换规则。验证：npm test 覆盖原失败、缺失分支、正常转换及所有已知调用方。回退：用 evidence/baseline.json 中 price.js 内容恢复并按需重跑测试；未执行回退。
+最小可运行检查映射：price.js 缺失/NaN 分支 → AC-002；正常转换及零值通过分支 → AC-001/003；命令 npm test，输入与预期见冻结表，最终实际结果：0 → 0.00；null、undefined、NaN → —；12.3 → 12.30，全部 PASS。
+
+## 决策与授权
+2026-10-04：Lite、连续执行及最小修复由用户指令授权；验收基线无变更。基线测试 FAIL 是复现，首次实现不计返工；尚无修改后的失败或审查反馈。
+
+## 阶段度量
+基线：evidence/baseline.json 与 baseline-sha256.txt。无 Git，阶段前后文本快照取数；终点、实测差异与结论将在验证后填写。日志与 JSON 检查点不含 .test.js 后缀，不进入 node --test 发现范围。
+
+## 结论与限制
+通过。需要决定：无。范围扩大、多模块或新架构决策时升级 Standard；迁移、不可逆或其他高风险范围升级 Full。文档不计实现文件数；不自动提交或打标签。
+
+
+## 最终检查与结论
+- 完成：price.js 显式识别缺失值及 NaN，保留零值与正常值转换；只修改实现一行。
+- 优化与代价：无性能优化或测量；不新增依赖，条件表达式稍长。
+- 未做：其他目录修改、新输入规则、commit/tag、联网、安装依赖。
+- 验收当前计数：3 PASS、0 FAIL、0 BLOCKED；npm test：1 测试 PASS、0 FAIL，退出码 0。基线：1 测试 FAIL、退出码 1；原始失败只作为历史证据。
+- smoke：npm test 全量运行，5 个断言全部到达，测试数仍为 1，检查点材料未改变发现范围。完整日志：evidence/final-test.log。
+- 告警与错误：ISSUE-001 已验证关闭；检查范围 price.js 与唯一调用方 price.test.js，本轮检查未发现新的代码错误。ISSUE-002 为 S3 环境告警，仍延期；不影响测试退出码。
+- 仓库仅配置 test；build/lint/typecheck：N/A，无相应脚本。UI：N/A，无 UI。独立复核：N/A，本次 Lite 无高风险动作。
+- 检查点：evidence/baseline.json 保存原始文本，evidence/final-sha256.txt 保存实现、测试及配置终点哈希；文档哈希另见 evidence/delivery-sha256.txt。无需 Git 提交。
+- 恢复操作：从 baseline.json 恢复 price.js；若撤销本次全部产物可移除新增文档及 evidence 目录；恢复未实际执行。
+
+## 实测阶段度量
+基线为开始前 price.js、price.test.js、package.json 的文本快照；终点为交付文件。取数方法：Python difflib.SequenceMatcher 对快照与终点逐行比较，完整 diff 与分类计数见 evidence/diff.txt、evidence/metrics.json；不是估算。基线时文档不存在。
+| 阶段 | 实现文件/+/- | 测试文件/+/- | 文档文件/+/- | 返工轮次与证据 | 阻塞次数与事件 | 排除项 |
+|---|---|---|---|---|---|---|
+| S1 | 1/+1/-1 | 0/+0/-0 | 2/+72/-0 | 0；仅首次实现，复验一次即通过 | 0；无独立阻塞事件 | evidence 下检查点、日志、度量文件 |
+文档包括 delivery-notes.md 与用户明确要求的 agent-output.md；两个基线均不存在。基线复现失败用于定位，不计为修改后返工或工作被阻塞。验收基线未降低，既有测试及断言未删改。

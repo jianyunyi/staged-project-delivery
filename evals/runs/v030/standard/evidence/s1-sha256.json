@@ -1,0 +1,11 @@
+{
+  "project-design.md": "cb7af26c153b35771e6b435b986df10bf327e40248ea48ca8dd39c7a9d02183b",
+  "csv.js": "6f03ebbe62eb7e0e4970f696a9512085ac5db92e04a4468c58bf9ef037d2e19f",
+  "query.js": "e5b52ce2433df6fc52ca85ce8042ed653d5de187f52a4302140f46b72746b26d",
+  "stage-report.md": "164a043b20a9ccbeac69a8833979930486fdeebaa92dfe94cf24fbf9de3a8d8a",
+  "catalog.js": "cea8a8abb5ee0b1a7f037e5a6ba02b9be4c397be19ca3327509f7f58c0fb647f",
+  "package.json": "afbdfa341178e339e6e0cbec9af5762d432c80af6ebe8b81945267f570234bff",
+  "optimization-design.md": "f0e639a40c7d3472057b6b9780dc712aa9af0aab6f71c925b4236c361f1c1732",
+  "service.js": "772f2ba2b7342c9c2af7c3f74093bd69c95c84422956e909800967bb715c30ab",
+  "test/query.test.js": "6b22c74012556ecec3fb26b796cf2ebd0d17aa752f97c3df1c00b7f74f36f84f"
+}

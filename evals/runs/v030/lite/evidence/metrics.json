@@ -1,0 +1,23 @@
+{
+  "method": "baseline text snapshot versus final text, difflib line opcodes",
+  "implementation": {
+    "files": 1,
+    "added": 1,
+    "deleted": 1
+  },
+  "tests": {
+    "files": 0,
+    "added": 0,
+    "deleted": 0
+  },
+  "documents": {
+    "files": 2,
+    "added": 72,
+    "deleted": 0
+  },
+  "rework": 0,
+  "blocking_events": 0,
+  "excluded": [
+    "evidence/"
+  ]
+}

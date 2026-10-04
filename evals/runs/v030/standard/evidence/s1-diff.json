@@ -1,0 +1,32 @@
+[
+  {
+    "file": "optimization-design.md",
+    "category": "文档",
+    "added": 19,
+    "deleted": 0
+  },
+  {
+    "file": "project-design.md",
+    "category": "文档",
+    "added": 47,
+    "deleted": 0
+  },
+  {
+    "file": "query.js",
+    "category": "实现",
+    "added": 17,
+    "deleted": 1
+  },
+  {
+    "file": "stage-report.md",
+    "category": "文档",
+    "added": 28,
+    "deleted": 0
+  },
+  {
+    "file": "test/query.test.js",
+    "category": "测试",
+    "added": 32,
+    "deleted": 0
+  }
+]

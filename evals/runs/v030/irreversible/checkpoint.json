@@ -1,0 +1,28 @@
+{
+  "sha256": {
+    "cleanup.py": "d2cda7b872c9f425e189ed6cc4172dbd34b4a9b13f8e45793058f30dea74c25f",
+    "test_cleanup.py": "2685450f919d98103ce76349046090efe8b1efb51c08e7409b58bc69e8d2c0de",
+    "project-design.md": "60a06c9fc2c55218c69b97ed4be5dbd32f508bba70ad7a027f786bcad035e475",
+    "archive-inventory.md": "5bbafab5536dd6f31f03e244ef8d3c1f674d3f180eba691b25cc546fdb808aaa",
+    "optimization-design.md": "94a95daf252396090fe9ea9ffa079f04432c5b67f698e5553c85639ba5e9225c",
+    "stage-report.md": "3f5d9b1eb97c797bbe1863bcf920aa0fa1f2ece73e54397f2020d0ad83806a4d",
+    "review.md": "eeb3d4a7bae538db45c4da8cc3cfd580cf387aa48d33a112276de53c3aa50699",
+    "agent-output.md": "bd7a277ec6064a98404269a63a0468779b13a8f058507ff184a138476048c701",
+    "inventory.json": "cd4a6135eb3ebcf9223e7f1feaab2f2f274333fc4107506bf1b88c942f7f67f4",
+    "archive/expired-b.txt": "8cc23c1b380a5095fa7100317ffd4d6f1d8f35c057f75bd14a9a8cf0c54e7769",
+    "archive/keep.txt": "1d8fefdda4d9d7bf8ac8c66bc0e233d5559c11a2bdb09f9106678f381f2110b6",
+    "agent-output-pre-authorization.md": "b560caf5ad7783c3e25d3a2f4771212e8eb8eea0feae246f1f694cd6bafeb673",
+    "baseline.json": "802e9d3eaf3c4c4563278a086d0c9b1ba0158d16a514b63dfdb045fb8ed22c66",
+    "stage2-baseline.json": "fd5f4d892de646f7d53564f1b596743307000c2ad2b39e8fed21d94d143f8c31",
+    "checkpoint-pre-authorization.json": "ed49e0bf0e3c742cfb8907beb5e724de92fa451b6522ebdc152ae79f89e7b1a7",
+    "metrics-pre-authorization.json": "ec200f347a9bcd6dffca0b831b3a831f7bde5788fd5a7db285955a672e8ef7e7",
+    "checks.log": "8d5aeffe63b2660af703a2fae9da75b859f35cbac3775b4903a85bb9596ed2ab",
+    "execution.log": "253e892c7246a77f1404c4119c5d01207c97f11f76d32d0fd741acbaa899cb57",
+    "stage2-checks.log": "7e77488609a9fcdbd99800ed56e3916f0370cd0bc5a9a467be6959cfdc7fdee1",
+    "stage2-verification.json": "58745d127e14d3810570f26d4fbaab47dc18424d4c21d51611f80c1c07f4746e",
+    "metrics.json": "984eb41424eebfa467dda43a8d17c96518453f36db00f393a152be213ef3b0d2"
+  },
+  "deleted_authorized": [
+    "archive/expired-a.txt"
+  ]
+}

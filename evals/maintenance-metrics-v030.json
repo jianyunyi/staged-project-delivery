@@ -1,0 +1,112 @@
+{
+  "baseline_commit": "9ceb65c6ecc7e927d840f33e3cd3c33605b9d537",
+  "stage": "S2",
+  "method": "difflib line opcodes; remote immutable baseline vs local release endpoint",
+  "files": [
+    {
+      "path": "README.md",
+      "category": "文档",
+      "added": 5,
+      "deleted": 1,
+      "baseline_sha256": "2c00aa5a09b543bdf4e96c74986d2681cabf4964dd0d8c0484244fc767d17288",
+      "endpoint_sha256": "4ccaa3ce8c38b1c13db1162b94435bf41e366266b4b9b3c6300aa82beedf11a8"
+    },
+    {
+      "path": "VERSION",
+      "category": "文档",
+      "added": 1,
+      "deleted": 1,
+      "baseline_sha256": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9",
+      "endpoint_sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0"
+    },
+    {
+      "path": "evals/REPORT.md",
+      "category": "文档",
+      "added": 2,
+      "deleted": 0,
+      "baseline_sha256": "44e3daa781758b6a19dc1ded686f708e04fd4b2b4ef20fb388cb9da8eed57d3a",
+      "endpoint_sha256": "7e048741a18fba337457985a17a05fc62d3411c83ef95d02ce8f5a7142f8e4b4"
+    },
+    {
+      "path": "evals/gate-tests-v030.json",
+      "category": "测试",
+      "added": 37,
+      "deleted": 0,
+      "baseline_sha256": null,
+      "endpoint_sha256": "a05ddb5ee0dffeb040ec26aebe0c840c0546d275d765726ec816159dee9dc6cd"
+    },
+    {
+      "path": "evals/REPORT-v030.md",
+      "category": "文档",
+      "added": 44,
+      "deleted": 0,
+      "baseline_sha256": null,
+      "endpoint_sha256": "64e97425f199303bf6dd41bad3e755ad7fd156ca408ffd5cb4462f46132dd27a"
+    },
+    {
+      "path": "evals/current.json",
+      "category": "实现",
+      "added": 4,
+      "deleted": 0,
+      "baseline_sha256": null,
+      "endpoint_sha256": "4f8b18e23c745b6c0887b7377cd6ead2c35f3260fa2ee34b201b62760e351f37"
+    },
+    {
+      "path": "evals/README.md",
+      "category": "文档",
+      "added": 6,
+      "deleted": 0,
+      "baseline_sha256": "c392383db8dac183b7698838fc623da26f8693a9495eb040ad0951dec43d786b",
+      "endpoint_sha256": "518f8cfc9043b2c8d7dda1b733c76aa6ad0ab00508067338365ad93e9e03a212"
+    },
+    {
+      "path": "evals/cases.json",
+      "category": "测试",
+      "added": 9,
+      "deleted": 1,
+      "baseline_sha256": "6a4ff732ad8562f669ab0c08389cedb9cdf9d3ea397968d5360c771767a457f3",
+      "endpoint_sha256": "77b24a79fcf0977d8137ce8e2dd813869d16e25b465b2f74929e4e818102edc1"
+    },
+    {
+      "path": "evals/scripts/test_gates.py",
+      "category": "测试",
+      "added": 24,
+      "deleted": 0,
+      "baseline_sha256": null,
+      "endpoint_sha256": "36be4070281082a859e284b6b24d5e1b5d7e4e36e7614c7d7b80f8571d01bf20"
+    },
+    {
+      "path": "evals/scripts/verify_evidence.py",
+      "category": "实现",
+      "added": 9,
+      "deleted": 1,
+      "baseline_sha256": "a0372e23ff94764167b73961f753f36ed6f08156c455fbfa2809ecf803b99257",
+      "endpoint_sha256": "617569d3757ec5d4d9859a6940d21bd1dd0f5b63a88e668bd6595064ce17f052"
+    },
+    {
+      "path": "evals/scripts/run.py",
+      "category": "实现",
+      "added": 9,
+      "deleted": 3,
+      "baseline_sha256": "622dca3a62811367177ec2cea6376c5d6b45f30e04ca88fb4cfb35cd3361d5a8",
+      "endpoint_sha256": "79e6ad83e7c138fb329407dad14601bea2f5f30e17b0a659fa2d26f48068e9b6"
+    },
+    {
+      "path": ".github/workflows/evals.yml",
+      "category": "实现",
+      "added": 4,
+      "deleted": 2,
+      "baseline_sha256": "e9ab7373c0e56cefdba488df0ea123177b37b9d77a67675f2caf8770c0ec9e3a",
+      "endpoint_sha256": "9337da288764c17e1167530cd3714f4aad20ff9bbafb7e6cfdabd116ea114517"
+    }
+  ],
+  "rework_rounds": 1,
+  "blocking_events": 0,
+  "excluded": [
+    "skills/ and AGENTS.md: S1 metrics",
+    "evals/runs/: generated evaluation artifacts",
+    "historical gate-tests.json: unchanged",
+    "measurement and manifest files: generated evidence",
+    "__pycache__ and test-fixtures: ephemeral"
+  ]
+}

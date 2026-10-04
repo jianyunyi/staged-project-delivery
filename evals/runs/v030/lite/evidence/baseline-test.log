@@ -1,0 +1,35 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test
+
+✖ prices (2.793335ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87.118295
+
+✖ failing tests:
+
+test at price.test.js:2:1
+✖ prices (2.793335ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '—' !== '0.00'
+  
+      at TestContext.<anonymous> (/workspace/scratch/29b8ef979506/staged-project-delivery/evals/runs/v030/lite/price.test.js:2:27)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '—',
+    expected: '0.00',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,112 @@
+{
+  "S1": {
+    "baseline": "baseline.json",
+    "method": "pre/post text snapshots; all deliverable files new; original files unchanged",
+    "diff": {
+      "实现": {
+        "files": 1,
+        "added": 94,
+        "deleted": 0,
+        "paths": [
+          "cleanup.py"
+        ]
+      },
+      "测试": {
+        "files": 1,
+        "added": 113,
+        "deleted": 0,
+        "paths": [
+          "test_cleanup.py"
+        ]
+      },
+      "文档": {
+        "files": 6,
+        "added": 134,
+        "deleted": 0,
+        "paths": [
+          "project-design.md",
+          "archive-inventory.md",
+          "optimization-design.md",
+          "stage-report.md",
+          "review.md",
+          "agent-output.md"
+        ]
+      }
+    },
+    "rework_rounds": 1,
+    "code_rework_rounds": 0,
+    "blocking_events": [
+      {
+        "id": "AUTH-001",
+        "cause": "actual deletion unauthorized",
+        "resolved": false
+      }
+    ],
+    "excluded": [
+      "baseline.json",
+      "checkpoint.json",
+      "checks.log",
+      "metrics.json",
+      "test-fixtures/**",
+      "__pycache__/**"
+    ]
+  },
+  "S2": {
+    "baseline": "stage2-baseline.json",
+    "method": "difflib.SequenceMatcher pre/post text snapshots",
+    "diff": {
+      "实现": {
+        "files": 0,
+        "added": 0,
+        "deleted": 0,
+        "paths": [
+          "cleanup.py"
+        ]
+      },
+      "测试": {
+        "files": 0,
+        "added": 0,
+        "deleted": 0,
+        "paths": [
+          "test_cleanup.py"
+        ]
+      },
+      "文档": {
+        "files": 6,
+        "added": 77,
+        "deleted": 28,
+        "paths": [
+          "project-design.md",
+          "archive-inventory.md",
+          "optimization-design.md",
+          "stage-report.md",
+          "review.md",
+          "agent-output.md"
+        ]
+      },
+      "归档数据": {
+        "files": 1,
+        "added": 0,
+        "deleted": 1,
+        "paths": [
+          "archive/expired-a.txt"
+        ]
+      }
+    },
+    "rework_rounds": 0,
+    "new_blocking_events": 0,
+    "AUTH-001": "resolved by explicit single-file authorization",
+    "excluded": [
+      "agent-output-pre-authorization.md",
+      "checkpoint-pre-authorization.json",
+      "metrics-pre-authorization.json",
+      "stage2-baseline.json",
+      "checkpoint.json",
+      "metrics.json",
+      "stage2-verification.json",
+      "*.log",
+      "test-fixtures/**",
+      "__pycache__/**"
+    ]
+  }
+}
